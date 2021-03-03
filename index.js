@@ -9,6 +9,10 @@ app.listen(port, () => console.log(`listening at ${port}`));
 app.use(express.static('public/'));
 app.use(express.json());
 
+app.get('/links', (request, response) => {
+    response.sendFile(`${__dirname.replace(/\\/g, "/")}/public/links.html`)
+});
+
 app.post('/submit', (request, response) => {
     if (request.body.pass === "adi") {
         status = "success"
