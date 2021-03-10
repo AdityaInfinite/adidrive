@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<title>Explorer</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+</head>
+
+<body>
+	<span class="material-icons">face</span>
+	<span class="material-icons">delete</span>
+	<h1 text="aliceblue">Explorer</h1>
+	<span id="span"></span>
+</body>
+<script>
+	getData();
+	async function getData() {
+		const responce = await fetch('/files');
+		const json = await responce.json();
+		console.log(json);
+		for (let i = 0; i < json.files.length; i++) {
+			const name = json.files[i];
+			var div = document.createElement("div");
+			div.setAttribute("id", `${name}`);
+			div.setAttribute("class", 'link');
+			div.setAttribute("onclick", `window.location.href = '../docs/${name}'`);
+			div.innerHTML = `&nbsp${name} <span style="float:right" class="material-icons">delete</span>`;
+			document.body.appendChild(div);
+		}
+	}
+	// document.getElementsByClassName('link').onmousedown= function() {
+	// 	alert(10);
+	// }
+	function openPg(){
+		console.log($(this).attr('id'));
+	}
+</script>
+<style>
+	
+	body {
+		background-color: #181A1B !important;
+		color: aliceblue;
+	}
+
+	a {
+		text-decoration: none;
+		color: aliceblue;
+	}
+
+	div {
+		border-radius: 10px;
+		margin: 10px;
+		background-color: grey;
+		width: 200px;
+		height: 25px;
+	}
+</style>
+
+</html>

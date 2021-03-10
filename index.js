@@ -1,5 +1,6 @@
 const { request, response } = require('express');
 const express = require('express');
+require('dotenv').config()
 const fs = require('fs');
 'use strict';
 
@@ -9,20 +10,23 @@ app.listen(port, () => console.log(`listening at ${port}`));
 app.use(express.static('public/'));
 app.use(express.json());
 
-app.get('/links', (request, response) => {
-    response.sendFile(`${__dirname.replace(/\\/g, "/")}/public/links.html`)
+app.get('/files', (request, response) => {
+    var files = fs.readdirSync('public/docs/');
+    response.json({files});
+	response.end();
+});
+app.get('/explorer', (request, response) => {
+    response.sendFile(`${__dirname.replace(/\\/g, "/")}/public/explorer/explorer.html`)
 });
 
+
 app.post('/submit', (request, response) => {
-    if (request.body.pass === "adi") {
+    if (request.body.pass === process.env.password) {
         status = "success"
         fs.writeFile(`public/docs/${request.body.name}`, request.body.text, function (err) {
             if (err) throw err;
             console.log('Saved! in '+ request.body.name);
         });
-        fs.appendFile('public/links.html',`<br> <a href="/docs/${request.body.name}">${request.body.name}</a>` , function (err) {
-            if (err) throw err;
-          });
     }else{
         status = "failure"
     }
@@ -30,5 +34,5 @@ app.post('/submit', (request, response) => {
     response.json({
         status: status,
     });
-    response.end();
+    response.end();7
 });

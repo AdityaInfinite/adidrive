@@ -12,7 +12,7 @@
     <style>
         body{
             margin: 20px;
-            background-color: #181A1B!important;;
+            background-color: #181A1B!important;
         }
     </style>
 </head>
@@ -47,6 +47,7 @@
             const responce = await fetch("/submit", options);
             json = await responce.json();
             console.log(json.status);
+            location.reload();
         }
     </script>
 </body>
